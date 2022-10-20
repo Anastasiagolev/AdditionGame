@@ -1,8 +1,10 @@
 //
 //  ContentView.swift
 //  MathGame
-//
-//  Created by Anastasia Golev on 10/20/22.
+//  This game presents 2 randomly generated numbers and asks the user to choose their correct sum from a range of 4 numbers.
+//  The original code is from "Let's make a Math Game for iPhone in Xcode (SwiftUI)[Part 1]" by Indently 
+//  Link to tutorial video: https://www.youtube.com/watch?v=MusVlGiVro8
+//  File created by Anastasia Golev on 10/20/22.
 //
 
 import SwiftUI
