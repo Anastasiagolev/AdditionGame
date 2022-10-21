@@ -20,9 +20,37 @@ struct ContentView: View {
     @State private var difficulty = 100 //ie this will be the maximum sum of any 2 numbers (upper bound)
     @State private var score = 0
     
+    //implemeting timer into ContentView
+    @StateObject private var vm = ViewModel()
+    private let timer = Timer.publish(every: 1,  on: .main, in: .common).autoconnect()
+    private let width: Double = 250
     
     var body: some View {
+    
         VStack{
+            //implementing a timer to the game
+            HStack{
+                Text("\(vm.time)")
+                    .font(.system(size: 30, weight:.medium, design: .rounded))
+                    .padding()
+                    .alert("Time's Up!\nYour score is: "+String(score), isPresented: $vm.showingAlert){
+                        Button("Want to play again?", role:.cancel){
+                            //code
+                            self.score = 0
+                        }
+                    }
+            }.onReceive(timer){ _ in
+                vm.updateCounter()
+            }
+            HStack(spacing: 50){
+                Button("Start"){
+                    vm.start(minutes: vm.minutes)
+                }
+                .disabled((vm.isActive)) //next update: reset score here too
+                Button("Reset", action: vm.reset)
+                    .tint(.red)
+                    .padding()
+            }
             Text("\(firstNumber) + \(secondNumber)")
                 .font(.largeTitle)
                 .bold()
@@ -52,6 +80,8 @@ struct ContentView: View {
                 .bold()
         }.onAppear(perform: generateAnswers)
     }
+
+    
     func answerIsCorrect(answer: Int){
         let isCorrect = answer == correctAnswer ? true : false
         
